@@ -1,0 +1,617 @@
+{%extends 'patient/base.html'%}
+
+{%block body%}
+
+
+
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+.input-container {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.icon {
+  padding: 8px;
+  background: dodgerblue;
+  color: white;
+  min-width: 50px;
+  text-align: center;
+}
+
+.input-field {
+  width: 100%;
+  padding: 3px;
+  outline: none;
+}
+
+
+.input-field:focus {
+  border: 2px solid dodgerblue;
+}
+
+/* Set a style for the submit button */
+.btn {
+  background-color: dodgerblue;
+  color: white;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+
+
+
+
+
+
+
+</style>
+
+
+<div class="container-fluid well well-md" style="margin-bottom:100px;margin-top:-18px;">
+
+
+    <div id="newReg">
+        <h2 align="center">UPDATE PATIENT DATA</h2>
+        <p align="center">Last update:-{{patient.date}}</p>
+
+        {%if messages%}
+
+        {%for message in messages%}
+        <div align="center" class="alert alert-success">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>{{message}}</strong>
+        </div>
+        {%endfor%}
+        {%endif%}
+        <form action="/patient/{{patient.id}}" style="max-width:500px;margin:auto;margin-top:50px" method="post">
+            {%csrf_token%}
+
+
+            <h5>Patient information :-</h5>
+            <div class="input-container">
+                <i class="fa fa-user icon"></i>
+                <input class="input-field" type="text" placeholder="Name" name="name" value="{{patient.name}}" required>
+            </div>
+
+            <div class="input-container">
+
+                <select style="padding:10px; margin-right:10px;" name="gender" class="input-field">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+
+
+                </select>
+                <input class="input-field" type="text" placeholder="Age" value="{{patient.age}}"  name="age">
+            </div>
+
+
+            <div class="input-container">
+                <i class="fa fa-envelope icon"></i>
+                <input class="input-field" type="text" placeholder="Address" value="{{patient.address}}"  name="address" required>
+            </div>
+
+
+            <div class="input-container">
+                <i class="fa fa-mobile icon"></i>
+                <input class="input-field" type="text" placeholder="Phone" name="phone" value="{{patient.phone}}"  required>
+            </div>
+
+            <div class="input-container">
+                <i class="fa fa-id-card icon"></i>
+                <input class="input-field" type="text" placeholder="Adhar Id" value="{{patient.aadhar_id}}"  name="adhar">
+            </div>
+
+            <h5 style="margin-top:20px;">Diagnosis Information :-</h5>
+            <div class="table-responsive">
+                <table class="table" id="myTable1">
+                    <thead>
+                    <tr>
+                        <th>Medicine</th>
+
+                        <th>Date:</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {%for disease in patient.diseaseallot_set.all%}
+
+
+                    <tr>
+                        <td>{{disease.name}} </td>
+
+                        <td >{{patient.date}}</td>
+                    </tr>
+                    {%endfor%}
+                    </tbody>
+                </table>
+             </div>
+
+            <div id="newDis">
+
+                <div class="input-container" id="disease1">
+                    <i class="fa fa-heart-o icon"></i>
+                    <input class="input-field" id="dis1" type="text" placeholder="Disease 1" name="disease1"
+                           autocomplete="off" required >
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="input-container">
+
+                <input class="btn" style="margin-right:70px;margin-left:20px" type="button" value='Add Disease'
+                       id="adddiagButton">
+                <input class="btn" style="margin-left:20px" type="button" value='Remove Disease' id="removediagButton">
+
+
+            </div>
+
+
+            <h5 style="margin-top:20px;">Medicines Prescribed :-</h5>
+
+
+
+             <div class="table-responsive">
+                <table class="table" id="myTable">
+                    <thead>
+                    <tr>
+                        <th>Medicine</th>
+                        <th align="center">quantity</th>
+                        <th>Date:</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {%for medicine in patient.medicineallot_set.all%}
+
+
+                    <tr>
+                        <td>{{medicine.name}} </td>
+                        <td >{{medicine.quantity}}</td>
+                        <td >{{patient.date}}</td>
+                    </tr>
+                    {%endfor%}
+                    </tbody>
+                </table>
+             </div>
+
+
+            <div id="newMed">
+
+                <div class="input-container" id="medicine1">
+                    <i class="fa fa-medkit icon"></i>
+                    <input style="margin-right:10px;" class="input-field" type="text" id="med1" placeholder="Medicine 1"
+                           name="medicine1" required>
+
+                    <i class="fa fa-quora icon"></i>
+                    <input style="margin-right:10px;" class="input-field" type="text" id="qty1" placeholder="Quantity"
+                           name="quantity1" required >
+
+                    <!--<i class="fa fa-quora icon"></i>
+                    <input class="input-field" type="text" id="aqty1" placeholder="Given Qty."
+                           name="quantity1" required>-->
+
+                </div>
+
+
+            </div>
+
+
+            <div class="input-container">
+
+                <input class="btn" style="margin-right:70px;margin-left:20px" type="button" value='Add Medicine'
+                       id="addmedButton">
+                <input class="btn" style="margin-left:20px" type="button" value='Remove Medicine' id="removemedButton">
+
+            </div>
+
+
+            <input type="hidden" id="des_count" name="total_disease">
+            <input type="hidden" id="med_count" name="total_medicine">
+
+
+
+
+
+            <button id="patinetform" type="submit" class="btn">Register</button>
+        </form>
+    </div>
+
+
+</div>
+
+
+<script>
+
+        var diseases_array = [];
+        var medicine_array =[];
+        var medicine_price = [];
+        var medicine_qty = [];
+        var cost_array = [];
+
+
+
+
+
+</script>
+
+{% for disease in all_diseases%}
+
+
+<script>
+
+    diseases_array[{{forloop.counter}}-1] ="{{disease.name}}";
+
+</script>
+
+
+{%endfor%}
+
+
+{% for medicine in all_medicines%}
+
+{%if medicine.available%}
+
+
+<script>
+
+
+        medicine_array[{{forloop.counter}}-1] ="{{medicine.name}}";
+        medicine_price[{{forloop.counter}}-1] ="{{medicine.tablet_price}}";
+        medicine_qty[{{forloop.counter}}-1] ="{{medicine.total_quantity}}";
+
+
+
+
+</script>
+
+
+{%else%}
+
+<script>
+
+
+        medicine_array[{{forloop.counter}}-1] ="";
+        medicine_price[{{forloop.counter}}-1] ="";
+        medicine_qty[{{forloop.counter}}-1] ="";
+
+</script>
+
+
+{%endif%}
+
+{%endfor%}
+
+
+<script>
+     $( function() {
+
+    $( "#dis1").autocomplete({
+      source: diseases_array
+
+    });
+
+  } );
+
+
+   $( function() {
+
+    $( "#med1").autocomplete({
+      source: medicine_array
+    });
+  } );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+
+
+
+
+    var counter = 2;
+    var count = 2;
+    var total_med , total_des;
+
+
+
+      $("#qty1").change(function(){
+
+        var index ;
+        var med_name = document.getElementById("med1");
+        var med_qty = document.getElementById("qty1");
+        var amed_qty = document.getElementById("aqty1");
+        var total_cost;
+
+
+        for(index = 0; index<=(medicine_array.length)-1; index++){
+                if(med_name.value ===medicine_array[index]){
+
+
+                    if(parseInt(med_qty.value)<= parseInt(medicine_qty[index])){
+
+                        total_cost = medicine_price[index]*med_qty.value;
+
+                        cost_array[1] = total_cost;
+
+
+                    }
+                    else{
+
+                        alert(medicine_qty[index]+ " " + med_name.value+ " " + " available in stock");
+                        med_qty.value = '';
+                    }
+
+
+
+
+
+
+                }
+
+          }
+         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $("#adddiagButton").click(function () {
+
+
+
+	if(counter>10){
+            alert("Only 10 textboxes allow");
+            return false;
+	}
+
+	var newTextBoxDiv = $(document.createElement('div'))
+	     .attr({
+            "id" : 'disease' + counter,
+            "class" : "input-container"
+        });
+
+	newTextBoxDiv.after().html( '<i class="fa fa-heart-o icon"></i> <input class="input-field" type="text" name="disease' + counter +'" id="dis' + counter + '" value="" placeholder="Disease ' + counter + '" >');
+
+	newTextBoxDiv.appendTo("#newDis");
+	 $( function() {
+
+    $( '#dis'+ counter ).autocomplete({
+      source: diseases_array
+    });
+  } );
+
+
+
+
+	counter++;
+     });
+
+     $("#removediagButton").click(function () {
+	if(counter==1){
+          alert("No more textbox to remove");
+          return false;
+       }
+
+	counter--;
+
+        $('#disease' + counter).remove();
+
+     });
+
+
+
+
+
+
+
+
+     $("#addmedButton").click(function () {
+
+
+
+
+
+	if(count>10){
+            alert("Only 10 textboxes allow");
+            return false;
+	}
+
+	var newTextBoxDiv = $(document.createElement('div'))
+	     .attr({
+            "id" : 'medicine' + count,
+            "class" : "input-container"
+        });
+
+	newTextBoxDiv.after().html( '<i class="fa fa-medkit icon"></i> <input style="margin-right:10px" class="input-field" type="text" name="medicine' + count +'" id="med' + count + '" value="" placeholder="Medicine ' + count + '" > <i class="fa fa-quora icon"></i> <input style="margin-right:10px;"  class="input-field" type="text" name="quantity' + count +'" id="qty' + count + '" value="" placeholder="Quantity" > ');
+
+    newTextBoxDiv.appendTo("#newMed");
+
+
+
+
+
+
+
+
+
+
+	 $( function() {
+
+    $( '#med'+ count).autocomplete({
+      source: medicine_array
+    });
+  });
+
+
+
+       $('#qty'+count).change(function(){
+
+        var index ;
+        var total_cost;
+        var c = count-1;
+        var med_name = $('#med'+c).val();
+        var med_qty = $('#qty'+c).val();
+
+
+
+        for(index = 0; index<=(medicine_array.length)-1; index++){
+                if(med_name ===medicine_array[index]){
+
+
+                     if(parseInt(med_qty)<= parseInt(medicine_qty[index])){
+
+                        total_cost = medicine_price[index]*med_qty;
+
+                        cost_array[c] = total_cost;
+                     }
+                     else{
+
+                        alert(medicine_qty[index]+ " " + med_name+ " " + " available in stock");
+                        $('#qty'+c).val('');
+
+                    }
+
+
+
+
+
+                }
+
+          }
+         });
+
+
+
+
+	count++;
+     });
+
+     $("#removemedButton").click(function () {
+	if(count==1){
+          alert("No more textbox to remove");
+          return false;
+       }
+
+	count--;
+
+        $('#medicine' + count).remove();
+
+     });
+
+
+
+      $("#patinetform").click(function () {
+
+        total_des = $("#newDis").find(".input-container").length;
+        document.getElementById("des_count").setAttribute('value',total_des);
+        total_med = $("#newMed").find(".input-container").length;
+        document.getElementById("med_count").setAttribute('value',total_med);
+
+
+
+
+
+     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  });
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+{%endblock%}

@@ -1,0 +1,93 @@
+{%extends 'patient/base.html'%}
+
+{%block body%}
+<div class="container">
+    <img src=" http://2.bp.blogspot.com/-qowz9gxOK-k/VrmVBK5SchI/AAAAAAAAAoI/cq7UGJnzOkQ/s1600-r/anandpur.jpg"
+         width="100%"/>
+
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="panel-group">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Medicines with more then 200 tablets stock</div>
+                    <div class="panel-body">
+
+                        {% for medicine in all_medicines%}
+
+
+                        {%if medicine.available and medicine.total_quantity > 200 %}
+
+                        <p><b>{{medicine.name}}</b>&nbsp;{{medicine.total_quantity}}&nbsp; tablets left</p>
+
+
+                        {%endif%}
+
+                        {%endfor%}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-12">
+            <div class="panel-group">
+                <div class="panel panel-success">
+                    <div class="panel-heading">Medicines with less then 200 tablets stock</div>
+                    <div class="panel-body">
+
+
+
+                        {% for medicine in all_medicines%}
+
+
+                        {%if medicine.available and medicine.total_quantity < 200 %}
+
+                        <p><b>{{medicine.name}}</b>&nbsp;{{medicine.total_quantity}}&nbsp; tablets left</p>
+
+
+                        {%endif%}
+
+                        {%endfor%}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-12">
+            <div class="panel-group">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">Medicines Out of stock</div>
+                    <div class="panel-body">
+                        {% for medicine in all_medicines%}
+
+
+                        {% if medicine.total_quantity == 0 %}
+
+                        <p><b>&nbsp;{{medicine.name}}</b></p>
+
+
+                        {%endif%}
+
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+</div>
+
+
+{%endblock%}

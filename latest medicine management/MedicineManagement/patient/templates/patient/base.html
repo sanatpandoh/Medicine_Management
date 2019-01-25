@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+{%block js%}
+{%endblock%}
+
+    <style>
+        .popover {
+height:auto;
+width:220px;
+overflow-y:auto;
+overflow-x:hidden;
+background-color:f2f2f2;
+
+		}
+    </style>
+
+</head>
+<body>
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Medicine Management</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+
+
+          <li class="active"><a href="/patient/add_patient"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add Patient</a></li>
+
+        <li><a href="/patient/all_patients"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;View Patients</a></li>
+
+
+          <li><a href="/admin/patient/medicine/add/"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add Medicine</a></li>
+           <li><a href="/patient/all_meds/"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;View Medicines</a></li>
+           <li><a href="/admin/patient/disease/add/"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add Disease</a></li>
+          <li><a href="#" data-trigger="hover" data-toggle="popover" title="<b>Low Stock Medicines</b> " data-html="true"
+
+            data-content="
+
+
+            {% for medicine in all_medicines%}
+
+
+            {%if medicine.available == False%}
+
+            <p><b>{{medicine.name}}</b> is out of stock</p>
+
+
+            {%elif medicine.total_quantity <= 50 %}
+
+            <p><b>{{medicine.total_quantity}} {{medicine.name}}</b> left in stock</p>
+
+
+            {%endif%}
+
+            {%endfor%}
+
+
+
+                ">
+
+
+               <span  class="glyphicon glyphicon-bell"></span> <span class="badge">
+
+                 {% for medicine in all_medicines%}
+
+                    {%if medicine.available == False%}
+
+                        {{forloop.counter}}
+
+                    {%endif%}
+
+                {%endfor%}
+
+
+
+           </span>
+           </a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </ul>
+
+
+
+
+
+
+      <ul class="nav navbar-nav navbar-right">
+
+
+          {% if user.is_authenticated %}
+
+
+          <li><a href="/accounts/logout"><span class="glyphicon glyphicon-log-out"></span> &nbsp;Logout</a></li>
+
+          {%endif%}
+
+
+      </ul>
+
+
+
+    </div>
+  </div>
+</nav>
+
+
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+});
+
+
+</script>
+
+
+
+{%block body%}
+{%endblock%}
+
+
+</body>
+</html>
+
+
